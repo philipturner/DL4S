@@ -56,129 +56,125 @@ class MNISTTests: XCTestCase {
         
     }
     
-    // Commenting out because it's taking way too long. Change some parameter in it so that it doesn't take 11 minutes.
+    func testConvNet() {
+        var model = Sequential {
+            Convolution2D<Float, CPU>(inputChannels: 1, outputChannels: 6, kernelSize: (5, 5), padding: 0)
+            LayerNorm<Float, CPU>(inputSize: [6, 24, 24])
+            Relu<Float, CPU>()
+            MaxPool2D<Float, CPU>(windowSize: 2, stride: 2)
+            Convolution2D<Float, CPU>(inputChannels: 6, outputChannels: 16, kernelSize: (5, 5), padding: 0)
+            LayerNorm<Float, CPU>(inputSize: [16, 8, 8])
+            Relu<Float, CPU>()
+            MaxPool2D<Float, CPU>(windowSize: 2, stride: 2)
+            Flatten<Float, CPU>()
+            Dense<Float, CPU>(inputSize: 16 * 4 * 4, outputSize: 120)
+            LayerNorm<Float, CPU>(inputSize: [120])
+            Relu<Float, CPU>()
+            Dense<Float, CPU>(inputSize: 120, outputSize: 10)
+            Softmax<Float, CPU>()
+        }
+
+        model.tag = "Classifier"
+        var optimizer = Adam(model: model, learningRate: 0.001)
+
+        let ((images, labels), (imagesVal, labelsVal)) = MNISTTests.loadMNIST(type: Float.self, device: CPU.self)
+
+        let epochs = 100
+        let batchSize = 256
+
+        var bar = ProgressBar<Float>(totalUnitCount: epochs, formatUserInfo: { "loss: \($0)" }, label: "training")
+
+        for _ in 1...epochs {
+            let (input, target) = Random.minibatch(from: images, labels: labels, count: batchSize)
+
+            let predicted = optimizer.model(input.view(as: [batchSize, 1, 28, 28]))
+            let loss = categoricalCrossEntropy(expected: target, actual: predicted)
+
+            let gradients = loss.gradients(of: optimizer.model.parameters)
+
+            optimizer.update(along: gradients)
+
+            bar.next(userInfo: loss.item)
+        }
+        bar.complete()
+
+        var correctCount = 0
+
+        for i in 0..<imagesVal.shape[0] {
+            let x = imagesVal[i].view(as: [1, 1, 28, 28])
+            let pred = optimizer.model(x).squeezed().argmax()
+            let actual = Int(labelsVal[i].item)
+
+            if pred == actual {
+                correctCount += 1
+            }
+        }
+
+        let accuracy = Float(correctCount) / Float(imagesVal.shape[0])
+
+        print("accuracy: \(accuracy * 100)%")
+        XCTAssertGreaterThan(accuracy, 0.7)
+    }
     
-//    func testConvNet() {
-//        var model = Sequential {
-//            Convolution2D<Float, CPU>(inputChannels: 1, outputChannels: 6, kernelSize: (5, 5), padding: 0)
-//            LayerNorm<Float, CPU>(inputSize: [6, 24, 24])
-//            Relu<Float, CPU>()
-//            MaxPool2D<Float, CPU>(windowSize: 2, stride: 2)
-//            Convolution2D<Float, CPU>(inputChannels: 6, outputChannels: 16, kernelSize: (5, 5), padding: 0)
-//            LayerNorm<Float, CPU>(inputSize: [16, 8, 8])
-//            Relu<Float, CPU>()
-//            MaxPool2D<Float, CPU>(windowSize: 2, stride: 2)
-//            Flatten<Float, CPU>()
-//            Dense<Float, CPU>(inputSize: 16 * 4 * 4, outputSize: 120)
-//            LayerNorm<Float, CPU>(inputSize: [120])
-//            Relu<Float, CPU>()
-//            Dense<Float, CPU>(inputSize: 120, outputSize: 10)
-//            Softmax<Float, CPU>()
-//        }
-//
-//        model.tag = "Classifier"
-//        var optimizer = Adam(model: model, learningRate: 0.001)
-//
-//        let ((images, labels), (imagesVal, labelsVal)) = MNISTTests.loadMNIST(type: Float.self, device: CPU.self)
-//
-//        let epochs = 100
-//        let batchSize = 256
-//
-//        var bar = ProgressBar<Float>(totalUnitCount: epochs, formatUserInfo: { "loss: \($0)" }, label: "training")
-//
-//        for _ in 1...epochs {
-//            let (input, target) = Random.minibatch(from: images, labels: labels, count: batchSize)
-//
-//            let predicted = optimizer.model(input.view(as: [batchSize, 1, 28, 28]))
-//            let loss = categoricalCrossEntropy(expected: target, actual: predicted)
-//
-//            let gradients = loss.gradients(of: optimizer.model.parameters)
-//
-//            optimizer.update(along: gradients)
-//
-//            bar.next(userInfo: loss.item)
-//        }
-//        bar.complete()
-//
-//        var correctCount = 0
-//
-//        for i in 0..<imagesVal.shape[0] {
-//            let x = imagesVal[i].view(as: [1, 1, 28, 28])
-//            let pred = optimizer.model(x).squeezed().argmax()
-//            let actual = Int(labelsVal[i].item)
-//
-//            if pred == actual {
-//                correctCount += 1
-//            }
-//        }
-//
-//        let accuracy = Float(correctCount) / Float(imagesVal.shape[0])
-//
-//        print("accuracy: \(accuracy * 100)%")
-//        XCTAssertGreaterThan(accuracy, 0.7)
-//    }
-    
-    // This test is freezing after the model is trained, and it is measuring the performance. Fix this problem before reactivating it.
-    
-//    func testGRU() {
-//        let ((images, labels), (imagesVal, labelsVal)) = MNISTTests.loadMNIST(type: Float.self, device: CPU.self)
-//
-//        print("Loaded images")
-//
-//        var model = Sequential {
-//            GRU<Float, CPU>(inputSize: 28, hiddenSize: 128, direction: .forward)
-//            Lambda<GRU<Float, CPU>.Outputs, Tensor<Float, CPU>, Float, CPU> { inputs in
-//                inputs.0
-//            }
-//            Dense<Float, CPU>(inputSize: 128, outputSize: 10)
-//            Softmax<Float, CPU>()
-//        }
-//        model.tag = "Classifier"
-//
-//        let epochs = 100
-//        let batchSize = 256
-//
-//        var optimizer = Adam(model: model, learningRate: 0.001)
-//
-//        print("Created model and optimizer")
-//
-//        var bar = ProgressBar<Float>(totalUnitCount: epochs, formatUserInfo: { "loss: \($0)" }, label: "training")
-//
-//        for _ in 1...epochs {
-//            let (batch, target) = Random.minibatch(from: images, labels: labels, count: batchSize)
-//            let input = batch.view(as: [-1, 28, 28]).permuted(to: [1, 0, 2])
-//
-//            let predicted = optimizer.model(input)
-//            let loss = categoricalCrossEntropy(expected: target, actual: predicted)
-//
-//            let gradients = loss.gradients(of: optimizer.model.parameters)
-//            optimizer.update(along: gradients)
-//
-//            bar.next(userInfo: loss.item)
-//        }
-//
-//        bar.complete()
-//
-//        var correctCount = 0
-//
-//        for i in 0..<imagesVal.shape[0] {
-//            let x = imagesVal[i]
-//                .view(as: [-1, 28, 28])
-//                .permuted(to: [1, 0, 2])
-//            let y = optimizer.model(x).squeezed()
-//            let pred = y.argmax()
-//
-//            let actual = Int(labelsVal[i].item)
-//            if pred == actual {
-//                correctCount += 1
-//            }
-//        }
-//
-//        let accuracy = Float(correctCount) / Float(imagesVal.shape[0])
-//
-//        print("accuracy: \(accuracy * 100)%")
-//        XCTAssertGreaterThan(accuracy, 0.7)
-//    }
+    func testGRU() {
+        let ((images, labels), (imagesVal, labelsVal)) = MNISTTests.loadMNIST(type: Float.self, device: CPU.self)
+
+        print("Loaded images")
+
+        var model = Sequential {
+            GRU<Float, CPU>(inputSize: 28, hiddenSize: 128, direction: .forward)
+            Lambda<GRU<Float, CPU>.Outputs, Tensor<Float, CPU>, Float, CPU> { inputs in
+                inputs.0
+            }
+            Dense<Float, CPU>(inputSize: 128, outputSize: 10)
+            Softmax<Float, CPU>()
+        }
+        model.tag = "Classifier"
+
+        let epochs = 100
+        let batchSize = 256
+
+        var optimizer = Adam(model: model, learningRate: 0.001)
+
+        print("Created model and optimizer")
+
+        var bar = ProgressBar<Float>(totalUnitCount: epochs, formatUserInfo: { "loss: \($0)" }, label: "training")
+
+        for _ in 1...epochs {
+            let (batch, target) = Random.minibatch(from: images, labels: labels, count: batchSize)
+            let input = batch.view(as: [-1, 28, 28]).permuted(to: [1, 0, 2])
+
+            let predicted = optimizer.model(input)
+            let loss = categoricalCrossEntropy(expected: target, actual: predicted)
+
+            let gradients = loss.gradients(of: optimizer.model.parameters)
+            optimizer.update(along: gradients)
+
+            bar.next(userInfo: loss.item)
+        }
+
+        bar.complete()
+
+        var correctCount = 0
+
+        for i in 0..<imagesVal.shape[0] {
+            let x = imagesVal[i]
+                .view(as: [-1, 28, 28])
+                .permuted(to: [1, 0, 2])
+            let y = optimizer.model(x).squeezed()
+            let pred = y.argmax()
+
+            let actual = Int(labelsVal[i].item)
+            if pred == actual {
+                correctCount += 1
+            }
+        }
+
+        let accuracy = Float(correctCount) / Float(imagesVal.shape[0])
+
+        print("accuracy: \(accuracy * 100)%")
+        XCTAssertGreaterThan(accuracy, 0.7)
+    }
     
     func performAccuracyTest<L: LayerType>(_ model: L, loss: (Tensor<Int32, L.Device>, Tensor<L.Parameter, L.Device>) -> Tensor<L.Parameter, L.Device>) where L.Inputs == Tensor<Float, CPU>, L.Outputs == L.Inputs, L.Parameter == Float, L.Device == CPU {
         var optimizer = Adam(model: model, learningRate: 0.001)
