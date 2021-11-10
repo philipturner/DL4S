@@ -30,9 +30,9 @@ public protocol RandomizableType: NumericType {
     static func random<Generator: RandomNumberGenerator>(in range: ClosedRange<Self>, using rng: inout Generator) -> Self
 }
 
-extension Int32: RandomizableType {}
-extension Float: RandomizableType {}
-extension Double: RandomizableType {}
+extension Int32: RandomizableType { }
+extension Float: RandomizableType { }
+extension Double: RandomizableType { }
 
 struct WyHash: RandomNumberGenerator {
     fileprivate static var shared = WyHash(seed: 0)

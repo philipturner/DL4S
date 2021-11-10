@@ -27,10 +27,9 @@ import Foundation
 
 /// Dense (Linear, Fully connected) layer with no activation function.
 public struct Dense<Element: RandomizableType, Device: DeviceType>: LayerType, Codable {
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[
-        \.weights,
-        \.bias
-    ]}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        [\.weights, \.bias]
+    }
     
     /// Weights, shape [inputSize, outputSize]
     public var weights: Tensor<Element, Device>

@@ -29,15 +29,19 @@ import Foundation
 public struct TransformerDecoder<Element: RandomizableType, Device: DeviceType>: LayerType, Codable {
     public var decoderLayers: [TransformerDecoderBlock<Element, Device>]
     
-    public var parameters: [Tensor<Element, Device>] {Array([
-        decoderLayers.flatMap{ $0.parameters },
-    ].joined())}
+    public var parameters: [Tensor<Element, Device>] {
+        Array([
+            decoderLayers.flatMap{ $0.parameters },
+        ].joined())
+    }
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {Array([
-        decoderLayers.enumerated().flatMap { (idx, layer) in
-            layer.parameterPaths.map((\Self.decoderLayers[idx]).appending(path:))
-        }
-    ].joined())}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        Array([
+            decoderLayers.enumerated().flatMap { (idx, layer) in
+                layer.parameterPaths.map((\Self.decoderLayers[idx]).appending(path:))
+            }
+        ].joined())
+    }
     
     /// Creates aransformer encoder sequencing positional encoding and token embedding and multiple transformer encoder layers, as introduced by [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf).
     public init(layerCount: Int, heads: Int, keyDim: Int, valueDim: Int, modelDim: Int, forwardDim: Int, dropout: Float) {

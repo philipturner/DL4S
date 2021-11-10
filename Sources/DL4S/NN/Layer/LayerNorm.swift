@@ -31,7 +31,7 @@ public struct LayerNorm<Element: RandomizableType, Device: DeviceType>: LayerTyp
         [\.shift, \.scale]
     }
     public var parameters: [Tensor<Element, Device>] {
-        get {[shift, scale]}
+        get { [shift, scale] }
     }
     
     /// Whether the layer is training, currently ignored.

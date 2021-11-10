@@ -28,8 +28,8 @@ import Foundation
 
 /// A dropout layer
 public struct Dropout<Element: RandomizableType, Device: DeviceType>: LayerType, Codable {
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[]}
-    public var parameters: [Tensor<Element, Device>] { get {[]} }
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] { [] }
+    public var parameters: [Tensor<Element, Device>] { get { [] } }
     
     /// Rate, with which dropout is applied.
     public var rate: Float

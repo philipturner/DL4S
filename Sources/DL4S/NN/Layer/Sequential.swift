@@ -85,11 +85,11 @@ public struct Sequential<First: LayerType, Second: LayerType>: LayerType where F
     }
 }
 
-extension Sequential: Codable where First: Codable, Second: Codable {}
+extension Sequential: Codable where First: Codable, Second: Codable { }
 
 /// A layer builder can be used to create sequences of layers
 @resultBuilder
-public enum LayerBuilder {}
+public enum LayerBuilder { }
 
 public extension LayerBuilder {
     

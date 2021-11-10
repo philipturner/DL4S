@@ -31,11 +31,11 @@ public struct LSTM<Element: RandomizableType, Device: DeviceType>: RNN, Codable 
     public typealias Outputs = (State, () -> State)
     public typealias State = (hiddenState: Tensor<Element, Device>, cellState: Tensor<Element, Device>)
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[
-        \.Wi, \.Wo, \.Wf, \.Wc,
-        \.Ui, \.Uo, \.Uf, \.Uc,
-        \.bi, \.bo, \.bf, \.bc
-    ]}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        [\.Wi, \.Wo, \.Wf, \.Wc,
+         \.Ui, \.Uo, \.Uf, \.Uc,
+         \.bi, \.bo, \.bf, \.bc]
+    }
     
     public let direction: RNNDirection
     
@@ -60,7 +60,11 @@ public struct LSTM<Element: RandomizableType, Device: DeviceType>: RNN, Codable 
     }
     
     public var parameters: [Tensor<Element, Device>] {
-        get {[Wi, Wo, Wf, Wc, Ui, Uo, Uf, Uc, bi, bo, bf, bc]}
+        get {
+            [Wi, Wo, Wf, Wc,
+             Ui, Uo, Uf, Uc,
+             bi, bo, bf, bc]
+        }
     }
     
     /// Creates a Long Short-Term Memory (LSTM) layer.

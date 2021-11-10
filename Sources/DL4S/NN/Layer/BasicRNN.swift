@@ -31,9 +31,9 @@ public struct BasicRNN<Element: RandomizableType, Device: DeviceType>: RNN, Coda
     public typealias Inputs = Tensor<Element, Device>
     public typealias Outputs = (Tensor<Element, Device>, () -> Tensor<Element, Device>)
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[
-        \.W, \.U, \.b
-    ]}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        [\.W, \.U, \.b]
+    }
     
     public let direction: RNNDirection
     
@@ -49,7 +49,7 @@ public struct BasicRNN<Element: RandomizableType, Device: DeviceType>: RNN, Coda
     }
     
     public var parameters: [Tensor<Element, Device>] {
-        get {[W, U, b]}
+        get { [W, U, b] }
     }
 
     /// A 'vanilla' RNN.

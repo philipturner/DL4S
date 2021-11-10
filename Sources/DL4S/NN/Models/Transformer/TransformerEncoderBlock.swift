@@ -30,14 +30,18 @@ public struct TransformerEncoderBlock<Element: RandomizableType, Device: DeviceT
     public var selfAttention: MultiHeadAttention<Element, Device>
     public var pointwiseFeedForward: PointwiseFeedForward<Element, Device>
     
-    public var parameters: [Tensor<Element, Device>] {Array([
-        selfAttention.parameters, pointwiseFeedForward.parameters
-    ].joined())}
+    public var parameters: [Tensor<Element, Device>] {
+        Array([
+            selfAttention.parameters, pointwiseFeedForward.parameters
+        ].joined())
+    }
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {Array([
-        selfAttention.parameterPaths.map((\Self.selfAttention).appending(path:)),
-        pointwiseFeedForward.parameterPaths.map((\Self.pointwiseFeedForward).appending(path:))
-    ].joined())}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        Array([
+            selfAttention.parameterPaths.map((\Self.selfAttention).appending(path:)),
+            pointwiseFeedForward.parameterPaths.map((\Self.pointwiseFeedForward).appending(path:))
+        ].joined())
+    }
     
     /// Creates Transformer encoder layer consisting of a self-attention and a pointwise feed forward layer as introduced by [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf).
     /// - Parameters:

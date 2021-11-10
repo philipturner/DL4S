@@ -27,12 +27,12 @@ import Foundation
 
 /// Transforms discrete values, such as word indices, into a lower dimensional embedding.
 public struct Embedding<Element: RandomizableType, Device: DeviceType>: LayerType, Codable {
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[
-        \.embeddingMatrix
-    ]}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        [\.embeddingMatrix]
+    }
     
     public var parameters: [Tensor<Element, Device>] {
-        get {[embeddingMatrix]}
+        get { [embeddingMatrix] }
     }
     
     /// Matrix of embedding vectors, shape [inputFeatures, outputSize]
@@ -84,7 +84,7 @@ public struct Embedding<Element: RandomizableType, Device: DeviceType>: LayerTyp
     ///   - verbose: If set to true, print out loading progress
     ///   - ignoreIndex: Token index that is ignored when retreiving values from the embedding matrix
     public init?(words: [String], embeddingsURL: URL, verbose: Bool = false, ignoreIndex: Int = -1) {
-        let wordToIndex = Dictionary(uniqueKeysWithValues: words.enumerated().map{($1, $0)})
+        let wordToIndex = Dictionary(uniqueKeysWithValues: words.enumerated().map{ ($1, $0) })
         
         var tensors: [Tensor<Element, Device>?] = Array(repeating: nil, count: words.count)
         

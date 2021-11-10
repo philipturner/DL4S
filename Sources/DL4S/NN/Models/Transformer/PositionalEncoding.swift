@@ -43,8 +43,8 @@ public struct PositionalEncoding<Element: RandomizableType, Device: DeviceType>:
         self.hiddenSize = hiddenSize
     }
     
-    public var parameters: [Tensor<Element, Device>] {[]}
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[]}
+    public var parameters: [Tensor<Element, Device>] { [] }
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] { [] }
     
     /// Creates a positional encoding matrix
     /// - Parameter maxLen: Maximum sequence length in the current minibatch

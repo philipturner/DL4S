@@ -41,19 +41,23 @@ public struct Transformer<Element: RandomizableType, Device: DeviceType>: LayerT
     
     public var outputBias: Tensor<Element, Device>
     
-    public var parameters: [Tensor<Element, Device>] {Array([
-        embedding.parameters,
-        encoder.parameters,
-        decoder.parameters,
-        [outputBias]
-    ].joined())}
+    public var parameters: [Tensor<Element, Device>] {
+        Array([
+            embedding.parameters,
+            encoder.parameters,
+            decoder.parameters,
+            [outputBias]
+        ].joined())
+    }
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {Array([
-        embedding.parameterPaths.map((\Self.embedding).appending(path:)),
-        encoder.parameterPaths.map((\Self.encoder).appending(path:)),
-        decoder.parameterPaths.map((\Self.decoder).appending(path:)),
-        [\Self.outputBias]
-    ].joined())}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        Array([
+            embedding.parameterPaths.map((\Self.embedding).appending(path:)),
+            encoder.parameterPaths.map((\Self.encoder).appending(path:)),
+            decoder.parameterPaths.map((\Self.decoder).appending(path:)),
+            [\Self.outputBias]
+        ].joined())
+    }
     
     /// Creates a new transformer, which follows [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf).
     /// - Parameters:

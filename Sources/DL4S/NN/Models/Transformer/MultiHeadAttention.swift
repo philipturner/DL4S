@@ -48,15 +48,19 @@ public struct MultiHeadAttention<Element: RandomizableType, Device: DeviceType>:
     /// Lat dimension of keys, queries and values before matrix multiplication
     public let hiddenDim: Int
     
-    public var parameters: [Tensor<Element, Device>] {Array([
-        [qDense, kDense, vDense, fc],
-        norm.parameters
-    ].joined())}
+    public var parameters: [Tensor<Element, Device>] {
+        Array([
+            [qDense, kDense, vDense, fc],
+            norm.parameters
+        ].joined())
+    }
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {Array([
-        [\.qDense, \.kDense, \.vDense, \.fc],
-        norm.parameterPaths.map((\Self.norm).appending(path:))
-    ].joined())}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        Array([
+            [\.qDense, \.kDense, \.vDense, \.fc],
+            norm.parameterPaths.map((\Self.norm).appending(path:))
+        ].joined())
+    }
     
     /// Multi-Head Attention Layer following [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf).
     /// - Parameters:

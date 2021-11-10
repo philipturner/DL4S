@@ -107,7 +107,7 @@ extension RNN {
                 stateSequence.reverse()
             }
             
-            return (currentState, {self.concatenate(stateSequence)})
+            return (currentState, { self.concatenate(stateSequence) })
         }
     }
 }

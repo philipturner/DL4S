@@ -29,11 +29,11 @@ public struct GRU<Element: RandomizableType, Device: DeviceType>: RNN, Codable {
     public typealias Inputs = Tensor<Element, Device>
     public typealias Outputs = (Tensor<Element, Device>, () -> Tensor<Element, Device>)
     
-    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {[
-        \.Wz, \.Wr, \.Wh,
-        \.Uz, \.Ur, \.Uh,
-        \.bz, \.br, \.bh
-    ]}
+    public var parameterPaths: [WritableKeyPath<Self, Tensor<Element, Device>>] {
+        [\.Wz, \.Wr, \.Wh,
+         \.Uz, \.Ur, \.Uh,
+         \.bz, \.br, \.bh]
+    }
     
     public let direction: RNNDirection
     
@@ -58,7 +58,11 @@ public struct GRU<Element: RandomizableType, Device: DeviceType>: RNN, Codable {
     }
     
     public var parameters: [Tensor<Element, Device>] {
-        get {[Wz, Wr, Wh, Uz, Ur, Uh, bz, br, bh]}
+        get {
+            [Wz, Wr, Wh,
+             Uz, Ur, Uh,
+             bz, br, bh]
+        }
     }
     
     /// Creates a Gated Recurrent Unit layer.
