@@ -26,7 +26,7 @@
 import Foundation
 
 
-//MARK: Summation
+// MARK: - Summation
 public extension Tensor {
     /// Sums up elements along the given axes.
     ///
@@ -207,7 +207,7 @@ public func variance<Element, Device>(_ tensor: Tensor<Element, Device>, axes: I
     tensor.variance(along: axes)
 }
 
-//MARK: Min/Max
+// MARK: - Min/Max
 public extension Tensor {
     
     /// Computes the maximum values along the given axes of the tensor.

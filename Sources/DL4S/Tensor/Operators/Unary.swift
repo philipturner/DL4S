@@ -25,7 +25,7 @@
 
 import Foundation
 
-// MARK: Element-wise operations
+// MARK: - Element-wise operations
 
 public extension Tensor {
     

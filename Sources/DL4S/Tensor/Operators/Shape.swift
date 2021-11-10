@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Tensor Shape Modifiers
+// MARK: - Tensor Shape Modifiers
 
 public extension Tensor {
     

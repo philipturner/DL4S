@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Device
+// MARK: - Device
 /// A device, on which tensor operations can be executed.
 public protocol DeviceType {
     /// Memory manager for a device
@@ -34,7 +34,7 @@ public protocol DeviceType {
     associatedtype Engine: EngineType where Engine.Device == Self
 }
 
-//MARK: Memory
+// MARK: - Memory
 /// Memory manager for a device
 public protocol MemoryOperatorsType {
     associatedtype Device: DeviceType where Device.Memory == Self
@@ -138,12 +138,12 @@ public protocol MemoryOperatorsType {
     static func advance<Element>(buffer: Buffer<Element, Device>, by advancement: Int) -> Buffer<Element, Device>
 }
 
-//MARK: Engine
+// MARK: - Engine
 /// Tensor operation engine for a device
 public protocol EngineType {
     associatedtype Device: DeviceType where Device.Engine == Self
     
-    //MARK: Simple operations
+    // MARK: - Simple operations
     
     /// Fills a buffer with a given value
     /// - Parameters:
@@ -191,8 +191,7 @@ public protocol EngineType {
     ///   - count: Number of elements to divide
     static func vDiv<N: NumericType>(lhs: Buffer<N, Device>, rhs: Buffer<N, Device>, result: Buffer<N, Device>, count: Int)
 
-    //MARK: Matrix operations
-    
+    // MARK: - Matrix operations
     
     /// Matrix diagonal fill in-place
     /// - Parameters:
@@ -232,7 +231,7 @@ public protocol EngineType {
     ///   - aboveDiagonal: Number of elements above diagonal to keep, nil for all elements
     static func band<N: NumericType>(buffer: ShapedBuffer<N, Device>, result: ShapedBuffer<N, Device>, belowDiagonal: Int?, aboveDiagonal: Int?)
     
-    //MARK: Broadcasting
+    // MARK: - Broadcasting
     
     /// Broadcast adds two buffers
     /// - Parameters:
@@ -262,7 +261,7 @@ public protocol EngineType {
     ///   - result: Result buffer
     static func broadcastDiv<N: NumericType>(lhs: ShapedBuffer<N, Device>, rhs: ShapedBuffer<N, Device>, result: ShapedBuffer<N, Device>)
     
-    //MARK: Reduction
+    // MARK: - Reduction
     
     /// Reduces one buffer into another along one axis by computing the sum.
     /// - Parameters:
@@ -354,7 +353,7 @@ public protocol EngineType {
     ///   - count: Number of elements in the buffer
     static func argmax<N: NumericType>(values: Buffer<N, Device>, count: Int) -> (Int, N)
     
-    //MARK: Element-wise functions
+    // MARK: - Element-wise functions
     
     /// Element-wise exponentiate
     /// - Parameters:
@@ -452,7 +451,7 @@ public protocol EngineType {
     ///   - context: Context buffer
     static func min<N: NumericType>(_ lhs: ShapedBuffer<N, Device>, _ rhs: ShapedBuffer<N, Device>, result: ShapedBuffer<N, Device>, context: ShapedBuffer<N, Device>)
     
-    //MARK: Shuffling
+    // MARK: - Shuffling
     
     /// Scatters elements to indices determined by the context along the specified axis.
     /// - Parameters:
@@ -557,7 +556,7 @@ public protocol EngineType {
     ///   - result: Result buffer
     static func arange<N: NumericType>(lowerBound: N, upperBound: N, result: ShapedBuffer<N, Device>)
     
-    //MARK: Convolution Helpers
+    // MARK: - Convolution Helpers
     
     /// Performs an img2col transformation that extracts all windows for a convolution into a matrix.
     /// - Parameters:

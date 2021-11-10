@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Compute Graph Debugging
+// MARK: - Compute Graph Debugging
 
 extension String {
     fileprivate func escaped() -> String {

@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Broadcasting Operators
+// MARK: - Broadcasting Operators
 
 public extension Tensor {
     
@@ -190,7 +190,6 @@ public extension Tensor {
                             } else {
                                 return resultGradient.reduceSum(along: lhsReducedAxes).view(as: lhs.shape)
                             }
-                            
                         }
                     }, { resultGradient, acc in
                         OperationGroup.capture(named: "∇₂-") {

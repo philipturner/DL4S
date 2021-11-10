@@ -27,8 +27,8 @@ import Foundation
 
 extension Optional {
     var forceUnwrapped: Wrapped {
-        get {self!}
-        set {self = newValue}
+        get { self! }
+        set { self = newValue }
     }
 }
 

@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Img2col
+// MARK: - Img2col
 public extension Tensor {
     
     /// Performs an img2col transformation, which allows convolutions to be performed by matrix multiplication.
@@ -109,7 +109,7 @@ public extension Tensor {
     }
 }
 
-//MARK: Convolution
+// MARK: - Convolution
 public extension Tensor {
     /// Performs a 2d convolution
     ///
@@ -182,7 +182,7 @@ public extension Tensor {
     }
 }
 
-//MARK: Pooling
+// MARK: - Pooling
 public extension Tensor {
     
     /// Performs max pooling on the tensor. Max pooling selects the maximum value for every given window of a tensor.

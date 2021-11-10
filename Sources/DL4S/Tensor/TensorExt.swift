@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Tensor extensions
+// MARK: - Tensor extensions
 
 extension Tensor: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
@@ -97,7 +97,7 @@ public extension Tensor {
     }
 }
 
-//MARK: Tensor - array conversion
+// MARK: - Tensor - array conversion
 public extension Tensor {
     
     /// Creates a tensor value holding the provided scalar. The tensor will have an empty shape.
@@ -164,7 +164,7 @@ public extension Tensor {
     }
 }
 
-//MARK: Tensor initialization
+// MARK: - Tensor initialization
 
 public extension Tensor where Element: RandomizableType {
     /// Creates a tensor and fills it with random values sampled from a normal distribution with mean 0 and standard deviation `sqrt(2 / shape[0])`.
@@ -295,7 +295,7 @@ public extension Tensor {
     }
 }
 
-//MARK: Tensor - Image conversion
+// MARK: - Tensor - Image conversion
 #if canImport(CoreGraphics)
 import CoreGraphics
 

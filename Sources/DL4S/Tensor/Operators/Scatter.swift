@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Indexing
+// MARK: - Indexing
 public extension Tensor {
     
     /// Gathers elements at indices determined by the context along the specified axis.

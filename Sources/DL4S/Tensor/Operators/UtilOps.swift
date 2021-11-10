@@ -25,7 +25,7 @@
 
 import Foundation
 
-// MARK: Utility operations
+// MARK: - Utility operations
 
 public extension Tensor where Element == Int32 {
     

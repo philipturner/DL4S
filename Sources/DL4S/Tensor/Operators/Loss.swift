@@ -25,7 +25,7 @@
 
 import Foundation
 
-//MARK: Losses
+// MARK: - Losses
 
 /// Computes the (element-wise) binary cross entropy loss on the given and expected probabilities and
 /// uses the mean as a reduction.
