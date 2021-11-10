@@ -204,7 +204,6 @@ public struct Tensor<Element: NumericType, Device: DeviceType> {
         return sorting
     }
     
-    
     /// Performs backpropagation and returns the gradients for the given tensors.
     ///
     /// Tensors for which it is desired to compute gradients must have `requiresGradient` set to `true`.

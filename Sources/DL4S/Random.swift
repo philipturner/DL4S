@@ -65,6 +65,8 @@ func randNormal<T: RandomizableType>(stdev: T, mean: T) -> (T, T) {
     
     let scale = (-2 * a.log()).sqrt() * stdev
     
+    // TODO: - Request: change from magic number to `T(Double.pi)`
+    
     let twoPiB = 2 * 3.141592653589 * b
     
     let (x, y) = (scale * twoPiB.sin() + mean, scale * twoPiB.cos() + mean)
@@ -103,7 +105,7 @@ public enum Random {
         
         if vector.count % 2 == 0 {
             let (a, _) = randNormal(stdev: stdev, mean: mean)
-            buffer[vector.count-1] = a
+            buffer[vector.count - 1] = a
         }
         Device.Memory.assign(from: buffer.immutable, to: vector.values, count: vector.count)
         buffer.deallocate()

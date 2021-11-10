@@ -287,7 +287,6 @@ public extension Tensor {
         elements.contains(where: { $0.isNaN })
     }
     
-    
     /// Indicates whether all elements of the tensor are finite.
     var isFinite: Bool {
         let abs = self.detached().rectifiedLinear() + (-self.detached()).rectifiedLinear()

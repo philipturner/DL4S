@@ -66,7 +66,7 @@ public extension Tensor {
             )
         }
         
-        set (slice) {
+        set(slice) {
             precondition(!requiresGradient, "Cannot write into tensor that requires gradient.")
             
             self.ensureOwnership()
@@ -111,8 +111,8 @@ public extension Tensor {
     /// print(a[1, nil] == a[1]) // true
     /// ```
     subscript(index: Int?...) -> Self {
-        get {self[index]}
-        set (slice) {self[index] = slice}
+        get { self[index] }
+        set(slice) { self[index] = slice }
     }
     
     /// Gets or sets a subtensor at the given window.
@@ -151,7 +151,7 @@ public extension Tensor {
             )
         }
         
-        set (slice) {
+        set(slice) {
             if slice.dim == 0 && dim - index.filter({ $0 != nil }).count > 0 {
                 fatalError("Assigning from a single value not supported yet.")
             }
@@ -186,7 +186,7 @@ public extension Tensor {
     /// print(a[nil, 0..<1]) // [[1, 2, 3]]
     /// ```
     subscript(index: Range<Int>?...) -> Self {
-        get {self[index]}
-        set (slice) {self[index] = slice}
+        get { self[index] }
+        set(slice) { self[index] = slice }
     }
 }
