@@ -347,7 +347,7 @@ public extension CPUNumeric {
         src_strides[src_dim - 1] = 1
         dst_strides[src_dim - 2] = 1
         
-        for i  in (0...(src_dim - 2)).reversed() {
+        for i in (0...(src_dim - 2)).reversed() {
             src_strides[i] = src_shape[i &+ 1] * src_strides[i &+ 1]
         }
         for i in (0...(src_dim - 2)).reversed() {

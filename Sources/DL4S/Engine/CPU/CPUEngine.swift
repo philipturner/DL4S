@@ -251,17 +251,18 @@ public struct CPUEngine: EngineType {
                 linearIndex &+= indices[base &+ i] &* dstStrides[i]
             }
             
+            // The above is equivalent to:
+            //
             // let prefixOffset = zip(srcStrides.prefix(upTo: axis), idx).map(*).reduce(0, +)
             // let suffixOffset = zip(srcStrides.suffix(from: axis+1), idx.suffix(from: axis)).map(*).reduce(0, +)
-            let totalOffset = prefixOffset + suffixOffset
+            // let linearIndex = zip(idx, dstStrides).map(*).reduce(0, +)
             
+            let totalOffset = prefixOffset + suffixOffset
             let reduced = reduceOperator(values.immutable.advanced(by: totalOffset), reductionStride, axisSize)
-            // let linearIndex = zip(idx, dstStrides).map(*).reduce(0,+)
             result.values[linearIndex] = reduced
         }
     }
     
-    // @available(*, deprecated, message: "Don't use this one, it is slow")
     @inline(__always)
     @_specialize(where N == Float)
     private static func reduceMultiAxis<N>(
@@ -325,6 +326,7 @@ public struct CPUEngine: EngineType {
         var reducedStrides = [Int]()
         var srcStridesDstIdx = srcStrides
         
+        // TODO: - Use ARHeadsetUtil's `Array.init(capacity:)`
         // reducedShape.reserveCapacity(axes.count)
         // reducedStrides.reserveCapacity(axes.count)
         for a in axes {
@@ -444,7 +446,6 @@ public struct CPUEngine: EngineType {
         }
     }
     
-    // @available(*, deprecated, message: "Don't use this one, it is slow")
     @inline(__always)
     @_specialize(where N == Float, Context == Int32)
     private static func reduceMultiAxisWithContext<N, Context>(
@@ -453,7 +454,7 @@ public struct CPUEngine: EngineType {
         context: ShapedBuffer<Context, CPU>,
         axes: [Int],
         reduceOperator: (UnsafeBufferPointer<N>, Int) -> (N, Context)
-        ) {
+    ) {
         #if DEBUG
         precondition(result.shape == context.shape)
 
@@ -910,7 +911,6 @@ public struct CPUEngine: EngineType {
         let dstShape = result.shape
         
         let suffix = zip(shape.indices, arangement).suffix(while: { $0 == $1 }).count
-        // let suffix = 0
         
         let copyCount = shape.suffix(suffix).reduce(1, *)
         let iterShape = shape.dropLast(suffix) as Array

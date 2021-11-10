@@ -39,7 +39,7 @@ public struct Buffer<Element, Device: DeviceType>: Hashable {
             return Device.Memory.getValue(from: self)
         }
         
-        nonmutating set (newValue) {
+        nonmutating set {
             Device.Memory.setPointee(of: self, to: newValue)
         }
     }

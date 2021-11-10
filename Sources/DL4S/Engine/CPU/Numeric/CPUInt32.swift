@@ -63,7 +63,7 @@ extension Int32: CPUNumeric {
         vDSP_vfilli([value], dst, 1, UInt(count))
         #else
         for i in 0..<count {
-            dst[i] = value;
+            dst[i] = value
         }
         #endif
     }
@@ -72,8 +72,8 @@ extension Int32: CPUNumeric {
         let src = val.pointer(capacity: count)
         let dst = result.pointer(capacity: count)
         for i in 0..<count {
-            let s = src[i];
-            dst[i] = s > 0 ? s : 0;
+            let s = src[i]
+            dst[i] = s > 0 ? s : 0
         }
     }
     
@@ -212,7 +212,7 @@ extension Int32: CPUNumeric {
         ippsMaxIndx_32s(src, Int32(count), &maxV, &maxI32)
         maxI = Int(maxI32)
         #else
-        maxV = Int32.min;
+        maxV = Int32.min
         for i in 0..<count {
             let v = src[i]
             if v > maxV {
@@ -234,7 +234,7 @@ extension Int32: CPUNumeric {
         ippsMinIndx_32s(src, Int32(count), &minV, &minI32)
         minI = Int(minI32)
         #else
-        minV = Int32.max;
+        minV = Int32.max
         for i in 0..<count {
             let v = src[i]
             if v < minV {
