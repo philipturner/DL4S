@@ -65,8 +65,6 @@ func randNormal<T: RandomizableType>(stdev: T, mean: T) -> (T, T) {
     
     let scale = (-2 * a.log()).sqrt() * stdev
     
-    // TODO: - Request: change from magic number to `T(Double.pi)`
-    
     let twoPiB = 2 * 3.141592653589 * b
     
     let (x, y) = (scale * twoPiB.sin() + mean, scale * twoPiB.cos() + mean)

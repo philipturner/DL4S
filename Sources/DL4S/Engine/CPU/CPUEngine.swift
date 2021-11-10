@@ -25,7 +25,6 @@
 
 import Foundation
 
-
 extension ShapedBuffer where Device == CPU {
     var pointer: UnsafeMutableBufferPointer<Element> {
         return values.memory.bindMemory(to: Element.self)
@@ -322,13 +321,10 @@ public struct CPUEngine: EngineType {
         let srcStrides = CPU.Memory.strides(from: values.shape)
         let dstStrides = CPU.Memory.strides(from: result.shape)
         
-        var reducedShape = [Int]()
-        var reducedStrides = [Int]()
+        var reducedShape = [Int](unsafeUninitializedCapacity: axes.count){ }
+        var reducedStrides = [Int](unsafeUninitializedCapacity: axes.count){ }
         var srcStridesDstIdx = srcStrides
         
-        // TODO: - Use ARHeadsetUtil's `Array.init(capacity:)`
-        // reducedShape.reserveCapacity(axes.count)
-        // reducedStrides.reserveCapacity(axes.count)
         for a in axes {
             reducedShape.append(values.shape[a])
             reducedStrides.append(srcStrides[a])
