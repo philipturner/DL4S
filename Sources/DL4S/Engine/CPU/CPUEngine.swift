@@ -321,8 +321,8 @@ public struct CPUEngine: EngineType {
         let srcStrides = CPU.Memory.strides(from: values.shape)
         let dstStrides = CPU.Memory.strides(from: result.shape)
         
-        var reducedShape = [Int](unsafeUninitializedCapacity: axes.count){ }
-        var reducedStrides = [Int](unsafeUninitializedCapacity: axes.count){ }
+        var reducedShape = [Int](unsafeUninitializedCapacity: axes.count){ _, _ in }
+        var reducedStrides = [Int](unsafeUninitializedCapacity: axes.count){ _, _ in }
         var srcStridesDstIdx = srcStrides
         
         for a in axes {
