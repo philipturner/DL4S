@@ -243,16 +243,14 @@ extension Double: CPUNumeric {
                 dst += src[i &* stride]
             }
         }
-        return dst
         #elseif canImport(Accelerate)
         vDSP_sveD(src, stride, &dst, UInt(count))
-        return dst
         #else
         for i in 0..<count {
             dst += src[i &* stride]
         }
-        return dst
         #endif
+        return dst
     }
     
     public static func gemm(lhs: UnsafeBufferPointer<Self>, rhs: UnsafeBufferPointer<Self>, result: UnsafeMutableBufferPointer<Self>, lhsShape: (Int, Int), rhsShape: (Int, Int), resultShape: (Int, Int), alpha: Self, beta: Self, transposeFirst: Bool, transposeSecond: Bool) {
@@ -300,7 +298,7 @@ extension Double: CPUNumeric {
         vDSP_maxviD(src, 1, &maxV, &maxIU, UInt(count))
         maxI = Int(maxIU)
         #else
-        maxV = -Double.infinity;
+        maxV = -Double.infinity
         for i in 0..<count {
             let v = src[i]
             if v > maxV {
@@ -326,7 +324,7 @@ extension Double: CPUNumeric {
         vDSP_minviD(src, 1, &minV, &minIU, UInt(count))
         minI = Int(minIU)
         #else
-        minV = Double.infinity;
+        minV = Double.infinity
         for i in 0..<count {
             let v = src[i]
             if v < minV {
@@ -350,7 +348,7 @@ extension Double: CPUNumeric {
         return (Int(maxI) / stride, maxV)
         #else
         var maxI: Int = 0
-        var maxV: Double = -Double.infinity
+        var maxV: Double = -.infinity
         let src = values.pointer(capacity: stride * count)
         for i in 0..<count {
             let v = src[i &* stride]
@@ -375,7 +373,7 @@ extension Double: CPUNumeric {
         return (Int(minI) / stride, minV)
         #else
         var minI: Int = 0
-        var minV: Double = Double.infinity
+        var minV: Double = .infinity
         let src = values.pointer(capacity: stride * count)
         for i in 0..<count {
             let v = src[i &* stride]

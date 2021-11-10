@@ -149,7 +149,7 @@ func iterativeWrite<Element>(
     dstIndex: [Int?],
     dstStrides: [Int],
     dstShape: [Int]
-    ) {
+) {
     let dstIndex = dstIndex.reversed().drop(while: { $0 == nil }).reversed()
     
     if dstIndex.count == 0 {
