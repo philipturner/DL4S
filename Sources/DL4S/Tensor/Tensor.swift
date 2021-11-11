@@ -265,9 +265,7 @@ public struct Tensor<Element: NumericType, Device: DeviceType> {
                 }
                 
                 let srcGrad = fn(grad, grads[src.backpropID])
-                #if DEBUG
                 assert(srcGrad.shape == src.shape)
-                #endif
                 
                 if retainGraph {
                     grads[src.backpropID] = srcGrad

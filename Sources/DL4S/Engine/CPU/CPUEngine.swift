@@ -100,7 +100,6 @@ public struct CPUEngine: EngineType {
         let lhs = lhs.reshaped(to: [Int](repeating: 1, count: dim - lhs.dim) + lhs.shape)
         let rhs = rhs.reshaped(to: [Int](repeating: 1, count: dim - rhs.dim) + rhs.shape)
         
-        #if DEBUG
         // Result must have same dimensionality as broadcasted operands
         assert(dim == result.dim)
         // Check, whether lhs and rhs have compatible shapes.
@@ -108,7 +107,6 @@ public struct CPUEngine: EngineType {
         assert(zip(lhs.shape, rhs.shape).allSatisfy{ $0.0 == $0.1 || $0.0 == 1 || $0.1 == 1 })
         // Check whether shape of result buffer matches combined operands
         assert(zip(zip(lhs.shape, rhs.shape), result.shape).map{ Swift.max($0.0, $0.1) == $1 }.allSatisfy{ $0 == true })
-        #endif
         
         // Determine, whether both operands have a suffix with more than 1 element
         // If that is the case, vector-vector mode is used
